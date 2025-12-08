@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Pacers Future Arcade</title>
+  <link href="https://fonts.googleapis.com/css?family=Orbitron:700,900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #190b4e;
+      --secondary: #ffc600;
+      --accent: #37e3ff;
+      --bg: linear-gradient(135deg, #190b4e 0%, #314fc0 100%);
+      --card-bg: rgba(25, 11, 78, 0.95);
+      --card-edge: #37e3ff;
+      --box-shadow: 0 0 20px #37e3ff;
+      --button-bg: linear-gradient(90deg,#ffc600,#37e3ff);
+      --button-text: #190b4e;
+      --nav-bg: rgba(49, 79, 192, 0.92);
+    }
+    body {
+      margin: 0;
+      font-family: 'Orbitron', Arial, sans-serif;
+      background: var(--bg);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      width: 100%;
+      padding: 1.5rem 2rem;
+      background: var(--nav-bg);
+      box-shadow: 0 2px 16px #37e3ff8c;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--secondary);
+      text-shadow: 0 0 10px var(--accent);
+    }
+    .logo img {
+      height: 2.5rem;
+      margin-right: .5rem;
+    }
+    nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+      margin-left: 2rem;
+      font-size: 1.2rem;
+      transition: color .2s;
+    }
+    nav a:hover {
+      color: var(--secondary);
+    }
+    .hero {
+      text-align: center;
+      margin-top: 4rem;
+      margin-bottom: 2rem;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: var(--secondary);
+      text-shadow: 0 0 12px var(--accent), 0 0 32px #fff1  ;
+      margin-bottom: .5rem;
+    }
+    .hero p {
+      font-size: 1.4rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #190b4e;
+      margin-bottom: 1.5rem;
+    }
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+      gap: 2.5rem;
+      padding: 2.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .game-card {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      border: 2px solid var(--card-edge);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow .2s, transform .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .game-card:hover {
+      box-shadow: 0 0 40px var(--accent);
+      transform: translateY(-4px) scale(1.03);
+    }
+    .game-title {
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: var(--secondary);
+      text-shadow: 0 0 12px var(--accent), 0 0 32px #fff2  ;
+      margin-bottom: .8rem;
+      letter-spacing: 1.5px;
+    }
+    .game-desc {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+    }
+    .start-btn {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 2rem;
+      font-size: 1.15rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 14px #ffc60088;
+      letter-spacing: 1px;
+      transition: box-shadow .2s, background .2s;
+      margin-top: auto;
+    }
+    .start-btn:hover {
+      box-shadow: 0 0 32px #37e3ffbb;
+      background: linear-gradient(90deg,#37e3ff,#ffc600);
+      color: #fff;
+    }
+    footer {
+      text-align: center;
+      color: #fff;
+      padding: 2.5rem 0 .5rem 0;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      background: linear-gradient(90deg, #190b4e88 60%, #314fc088 100%);
+      margin-top: 3rem;
+    }
+    /* Futuristic glow effect for the background */
+    .background-glow {
+      position: fixed;
+      z-index: 0;
+      top: 0;
+      left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+    }
+    .ellipse {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.50;
+    }
+    .ellipse.e1 { background: #37e3ff; width: 480px; height: 480px; left: 4vw; top: 24vh;}
+    .ellipse.e2 { background: #ffc600; width: 380px; height: 380px; right: 10vw; top: 8vh;}
+    .ellipse.e3 { background: #190b4e; width: 650px; height: 300px; left: 52vw; top: 75vh;}
+    @media (max-width: 700px) {
+      .hero h1 { font-size: 2rem; }
+      .games { grid-template-columns: 1fr; padding: 1rem; }
+      header { flex-direction: column; }
+      .logo { font-size: 1.4rem;}
+      nav a { margin-left: 1rem; font-size: 1rem;}
+      .game-card { padding: 1rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="background-glow">
+    <div class="ellipse e1"></div>
+    <div class="ellipse e2"></div>
+    <div class="ellipse e3"></div>
+  </div>
+  <header>
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/1/1b/Indiana_Pacers.svg" alt="Pacers Logo">
+      PACERS FUTURE ARCADE
+    </div>
+    <nav>
+      <a href="#games">Games</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+  <section class="hero">
+    <h1>Welcome to the Pacers Future Arcade</h1>
+    <p>Experience classic arcade games reimagined for the next generation. Futuristic vibes, Pacers pride, and neon lights – select your challenge below!</p>
+  </section>
+  <section class="games" id="games">
+    <div class="game-card">
+      <div class="game-title">Pong</div>
+      <div class="game-desc">Bounce into the classics! Futuristic Pong, Pacers-style. Click 'Start Game' to play.</div>
+      <button class="start-btn" onclick="alert('Game will go here!')">Start Game</button>
+      <!-- Replace with your Pong code -->
+    </div>
+    <div class="game-card">
+      <div class="game-title">Snake</div>
+      <div class="game-desc">Slither through neon tubes and collect the Pacers gems! Click 'Start Game' to play.</div>
+      <button class="start-btn" onclick="alert('Game will go here!')">Start Game</button>
+      <!-- Replace with your Snake code -->
+    </div>
+    <div class="game-card">
+      <div class="game-title">Breakout</div>
+      <div class="game-desc">Smash through futuristic bricks in Pacers colors! Click 'Start Game' to play.</div>
+      <button class="start-btn" onclick="alert('Game will go here!')">Start Game</button>
+      <!-- Replace with your Breakout code -->
+    </div>
+  </section>
+  <section id="about" style="max-width:700px;margin:2rem auto;text-align:center;">
+    <h2 style="color:var(--accent);text-shadow:0 0 12px #37e3ffa8;">About This Arcade</h2>
+    <p style="font-size:1.1rem;color:#fff;letter-spacing:1px;">
+      This site is a futuristic tribute to the Indiana Pacers, inspired by next-level neon, gradients, and tech! Add your own game code to each card above – the look, atmosphere, and color vibes are locked in. Made for fans, by fans.
+    </p>
+  </section>
+  <footer>
+    <span>Made by a Pacers fan · Inspired by the future · 2025</span>
+  </footer>
+</body>
+</html>
